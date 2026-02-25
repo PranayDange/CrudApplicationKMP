@@ -39,6 +39,8 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.sqldelight.android.driver)
+            implementation(libs.koin.android)
+
         }
 
         jsMain.dependencies {
@@ -84,8 +86,8 @@ dependencies {
 
 sqldelight {
     databases {
-        create("AppDatabase") {
-            packageName.set("com.example.crudapplicationkmp.db")
+        create("StudentDatabase") {
+            packageName.set("com.example.crudapplicationkmp.database")
         }
     }
 }
