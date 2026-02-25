@@ -49,39 +49,77 @@ class StudentViewModel(
 
             is StudentIntent.DeleteStudent ->
                 deleteStudent(intent.student)
+
+            is StudentIntent.EditStudent -> {
+                _state.update {
+                    it.copy(
+                        name = intent.student.name,
+                        age = intent.student.age.toString(),
+                        studentClass = intent.student.studentClass,
+                        town = intent.student.town,
+                        editingStudentId = intent.student.id
+                    )
+                }
+            }
         }
     }
 
     private fun saveStudent() {
         viewModelScope.launch {
+
             val current = _state.value
 
             if (current.name.isBlank() || current.age.isBlank()) return@launch
 
-            repository.addStudent(
-                Student(
-                    id = 0,
-                    name = current.name,
-                    age = current.age.toInt(),
-                    studentClass = current.studentClass,
-                    town = current.town
-                )
-            )
+            val age = current.age.toIntOrNull() ?: return@launch
 
-            _state.update {
-                it.copy(
-                    name = "",
-                    age = "",
-                    studentClass = "",
-                    town = ""
+            if (current.editingStudentId == null) {
+
+
+                repository.addStudent(
+                    Student(
+                        id = 0,
+                        name = current.name,
+                        age = age,
+                        studentClass = current.studentClass,
+                        town = current.town
+                    )
+                )
+
+            } else {
+
+
+                repository.updateStudent(
+                    Student(
+                        id = current.editingStudentId,
+                        name = current.name,
+                        age = age,
+                        studentClass = current.studentClass,
+                        town = current.town
+                    )
                 )
             }
+
+            clearForm()
         }
     }
 
     private fun deleteStudent(student: Student) {
         viewModelScope.launch {
             repository.deleteStudent(student)
+        }
+    }
+
+
+    private fun clearForm() {
+        _state.update {
+            it.copy(
+                name = "",
+                age = "",
+                studentClass = "",
+                town = "",
+                editingStudentId = null
+            )
         }
     }
 

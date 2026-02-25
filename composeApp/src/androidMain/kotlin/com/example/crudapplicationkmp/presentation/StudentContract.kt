@@ -9,14 +9,16 @@ sealed class StudentIntent {
     data class TownChanged(val value: String) : StudentIntent()
 
     object SaveStudent : StudentIntent()
+    data class EditStudent(val student: Student) : StudentIntent()
+
     data class DeleteStudent(val student: Student) : StudentIntent()
 }
 
 data class StudentState(
-    val students: List<Student> = emptyList(),
     val name: String = "",
     val age: String = "",
     val studentClass: String = "",
     val town: String = "",
-    val isLoading: Boolean = false
+    val students: List<Student> = emptyList(),
+    val editingStudentId: Long? = null
 )

@@ -11,6 +11,10 @@ plugins {
 
 kotlin {
     androidTarget()
+    js {
+        browser()
+        binaries.executable()
+    }
     sourceSets {
 
         commonMain.dependencies {
@@ -45,7 +49,7 @@ kotlin {
         }
 
         jsMain.dependencies {
-            implementation(libs.sqldelight.sqlite.driver)
+           // implementation(libs.sqldelight.sqlite.driver)
         }
 
         commonTest.dependencies {
