@@ -1,0 +1,25 @@
+CREATE TABLE students (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    studentClass TEXT NOT NULL,
+    town TEXT NOT NULL
+);
+
+selectAll:
+SELECT * FROM students;
+
+selectById:
+SELECT * FROM students WHERE id = ?;
+
+insertStudent:
+INSERT INTO students(name, age, studentClass, town)
+VALUES (?, ?, ?, ?);
+
+updateStudent:
+UPDATE students
+SET name = ?, age = ?, studentClass = ?, town = ?
+WHERE id = ?;
+
+deleteStudent:
+DELETE FROM students WHERE id = ?;
